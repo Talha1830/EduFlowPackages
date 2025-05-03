@@ -1,0 +1,3 @@
+For Project EduFlow.Packages committ changes in 'eduflow_packages' branch 
+
+For Project Eduflow.shared committ changes in 'eduflow.shared'
