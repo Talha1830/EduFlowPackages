@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '9.0'
 
       - name: Restore only the shared project
-        run: dotnet restore ./EduFlow.Shared/Service.Shared.csproj
+        run: dotnet restore ./EduFlow.Shared/EduFlow.Shared.csproj
 
       - name: Build shared project
         run: dotnet build ./EduFlow.Shared/EduFlow.Shared.csproj --configuration Release --no-restore
