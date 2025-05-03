@@ -1,0 +1,34 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '9.0'
+
+      - name: Restore only the shared project
+        run: dotnet restore ./EduFlow.Shared/Service.Shared.csproj
+
+      - name: Build shared project
+        run: dotnet build ./EduFlow.Shared/EduFlow.Shared.csproj --configuration Release --no-restore
+
+      - name: Pack Service.Shared project
+        run: dotnet pack ./EduFlow.Shared/EduFlow.Shared.csproj --configuration Release --no-restore --output ./output /p:PackageVersion=1.0.${{ github.run_number }}
+      
+      - name: Add GitHub Packages source
+        run: dotnet nuget add source --username "${{ github.actor }}" --password "${{ secrets.GITHUB_TOKEN }}" --store-password-in-clear-text --name "GitHubPackages" "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+
+      - name: Publish NuGet package
+        run: dotnet nuget push ./output/EduFlow.Shared.1.0.${{ github.run_number }}.nupkg --source "https://nuget.pkg.github.com/Talha1830/index.json" --api-key "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"

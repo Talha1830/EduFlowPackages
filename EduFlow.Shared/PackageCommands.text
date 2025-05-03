@@ -1,0 +1,23 @@
+1) To Publish the Library Open the project folder and here open command prompt 
+then enter below command
+
+dotnet nuget push bin/Release/Service.Shared.nupkg --source "github" --api-key "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"
+
+
+
+2) To add the packge in another project simply add nuget.config and in command prompt execute this command
+
+ dotnet add package "Package_Name" --version 1.0.0
+
+
+
+
+3) To Auto Publish and update package automatically create yml file in .github/workflows/
+
+see here
+
+
+
+
+Github action token "GH_NUGET_TOKEN"
+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

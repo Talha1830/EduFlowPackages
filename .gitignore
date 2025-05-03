@@ -1,0 +1,8 @@
+# Ignore folders in all projects
+**/logs/
+**/temp/
+**/build/
+**/debug/
+**/obj/
+*/.vs/
+**/bin/

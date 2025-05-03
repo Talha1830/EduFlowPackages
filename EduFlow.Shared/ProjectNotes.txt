@@ -1,0 +1,11 @@
+﻿What goes into EduFlow.Shared?
+
+Enums (UserRoles, GradeLevels, etc.)
+
+Extensions (StringExtensions, DateTimeExtensions)
+
+DTOs (Data Transfer Objects used in API/UI)
+
+Helpers (GPA Calculator, Grade Calculation)
+
+Response Models (Pagination, API Responses)
