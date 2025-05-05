@@ -8,5 +8,6 @@
         public const string ProvinceRequired = "Province is required.";
         public const string OrganizationTypeRequired = "Organization type is required.";
         public const string LogoRequired = "Logo is required.";
+        public const int test = 12;
     }
 }
