@@ -1,4 +1,4 @@
-name: Publish EduFlow NugetPackages 
+name: Publish EduFlow NuGet Packages
 
 on:
   push:
@@ -18,26 +18,29 @@ jobs:
         with:
           dotnet-version: '9.0'
 
-      - name: Restore only the NugetPackages project
+      - name: Restore NuGet packages
         run: dotnet restore ./EduFlow.NugetPackages/EduFlow.NugetPackages.csproj
 
-      - name: Build EduFlow.NugetPackages project
+      - name: Build project
         run: dotnet build ./EduFlow.NugetPackages/EduFlow.NugetPackages.csproj --configuration Release --no-restore
 
-
       - name: Debug token presence
+        shell: pwsh
         run: |
-            if [ -z "${{ secrets.Packages_token }}" ]; then
-              echo "❌ Token is missing!"
-              exit 1
-            else
-              echo "✅ Token is present."
-            fi
-      - name: Pack EduFlow.NugetPackages project
-        run: dotnet pack ./EduFlow.NugetPackages/EduFlow.NugetPackages.csproj --configuration Release --no-restore --output ./output /p:PackageVersion=1.0.${{ github.run_number }}
-      
-      - name: Add GitHub Packages source
-        run: dotnet nuget add source --username "${{ github.actor }}" --password "${{ secrets.PACKAGE_SECRET }}" --store-password-in-clear-text --name "GitHubPackages" "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+          if ($env:PACKAGES_TOKEN -eq $null -or $env:PACKAGES_TOKEN -eq "") {
+            Write-Host "❌ Token is missing!"
+            exit 1
+          } else {
+            Write-Host "✅ Token is present."
+          }
+        env:
+          PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
-      - name: Publish NuGet package
-        run: dotnet nuget push ./output/EduFlow.NugetPackages.1.0.${{ github.run_number }}.nupkg --source "https://nuget.pkg.github.com/Talha1830/index.json" --api-key ${{ secrets.Packages_token }}
+      - name: Pack NuGet package
+        run: dotnet pack ./EduFlow.NugetPackages/EduFlow.NugetPackages.csproj --configuration Release --no-restore --output ./output /p:PackageVersion=1.0.${{ github.run_number }}
+
+      - name: Add GitHub Packages source (optional step)
+        run: dotnet nuget add source --username "${{ github.actor }}" --password "${{ secrets.PACKAGES_TOKEN }}" --store-password-in-clear-text --name "GitHubPackages" "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+
+      - name: Push NuGet package
+        run: dotnet nuget push ./output/EduFlow.NugetPackages.1.0.${{ github.run_number }}.nupkg --source "https://nuget.pkg.github.com/Talha1830/index.json" --api-key "${{ secrets.PACKAGES_TOKEN }}"
