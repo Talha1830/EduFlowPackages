@@ -24,6 +24,15 @@ jobs:
       - name: Build EduFlow.NugetPackages project
         run: dotnet build ./EduFlow.NugetPackages/EduFlow.NugetPackages.csproj --configuration Release --no-restore
 
+
+      - name: Debug token presence
+        run: |
+            if [ -z "${{ secrets.Packages_token }}" ]; then
+              echo "❌ Token is missing!"
+              exit 1
+            else
+              echo "✅ Token is present."
+            fi
       - name: Pack EduFlow.NugetPackages project
         run: dotnet pack ./EduFlow.NugetPackages/EduFlow.NugetPackages.csproj --configuration Release --no-restore --output ./output /p:PackageVersion=1.0.${{ github.run_number }}
       
