@@ -1,9 +1,9 @@
-name: Publish NuGet Package
+name: Publish EduFlow NuGet Packages
 
 on:
   push:
     branches:
-      - main
+      - eduflow_packges
 
 jobs:
   publish:
@@ -18,17 +18,15 @@ jobs:
         with:
           dotnet-version: '9.0'
 
-      - name: Restore only the shared project
-        run: dotnet restore ./EduFlow.Packages/EduFlow.Packages.csproj
+      - name: Restore NuGet packages
+        run: dotnet restore ./EduFlow.NugetPackages/EduFlow.NugetPackages.csproj
 
-      - name: Build shared project
-        run: dotnet build ./EduFlow.Packages/EduFlow.Packages.csproj --configuration Release --no-restore
+      - name: Build project
+        run: dotnet build ./EduFlow.NugetPackages/EduFlow.NugetPackages.csproj --configuration Release --no-restore
 
-      - name: Pack Service.Shared project
-        run: dotnet pack ./EduFlow.Packages/EduFlow.Packages.csproj --configuration Release --no-restore --output ./output /p:PackageVersion=1.0.${{ github.run_number }}
       
-      - name: Add GitHub Packages source
-        run: dotnet nuget add source --username "${{ github.actor }}" --password "${{ secrets.GITHUB_TOKEN }}" --store-password-in-clear-text --name "GitHubPackages" "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+      - name: Pack NuGet package
+        run: dotnet pack ./EduFlow.NugetPackages/EduFlow.NugetPackages.csproj --configuration Release --no-restore --output ./output /p:PackageVersion=1.0.${{ github.run_number }}
 
-      - name: Publish NuGet package
-        run: dotnet nuget push ./output/EduFlow.Packages.1.0.${{ github.run_number }}.nupkg --source "https://nuget.pkg.github.com/Talha1830/index.json" --api-key "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"
+      - name: Push NuGet package
+        run: dotnet nuget push ./output/EduFlow.NugetPackages.1.0.${{ github.run_number }}.nupkg --source "https://nuget.pkg.github.com/Talha1830/index.json" --api-key ${{ secrets.package_secret }}
