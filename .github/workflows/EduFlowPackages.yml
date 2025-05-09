@@ -28,8 +28,6 @@ jobs:
       - name: Pack NuGet package
         run: dotnet pack ./EduFlow.NugetPackages/EduFlow.NugetPackages.csproj --configuration Release --no-restore --output ./output /p:PackageVersion=1.0.${{ github.run_number }}
 
-      - name: Add GitHub Packages source (optional step)
-        run: dotnet nuget add source --username "${{ github.actor }}" --password "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" --store-password-in-clear-text --name "GitHubPackages" "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
-
       - name: Push NuGet package
-        run: dotnet nuget push ./output/EduFlow.NugetPackages.1.0.${{ github.run_number }}.nupkg --source "https://nuget.pkg.github.com/Talha1830/index.json" --api-key "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"
+        run: dotnet nuget push ./output/EduFlow.NugetPackages.1.0.${{ github.run_number }}.nupkg --source "https://nuget.pkg.github.com/Talha1830/index.json" --api-key ${{ secrets.package_secret }}
+Update EduFlowShared.yml · Talha1830/EduFlowPackages@7acc69f
