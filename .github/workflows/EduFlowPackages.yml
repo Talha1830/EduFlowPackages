@@ -30,4 +30,3 @@ jobs:
 
       - name: Push NuGet package
         run: dotnet nuget push ./output/EduFlow.NugetPackages.1.0.${{ github.run_number }}.nupkg --source "https://nuget.pkg.github.com/Talha1830/index.json" --api-key ${{ secrets.package_secret }}
-Update EduFlowShared.yml · Talha1830/EduFlowPackages@7acc69f
