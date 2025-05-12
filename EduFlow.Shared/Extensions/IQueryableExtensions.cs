@@ -1,14 +1,9 @@
 ﻿using EduFlow.Shared.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Service.Shared.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EduFlow.Shared.Extensions
+{
     public static class IQueryableExtensions
     {
         /// <summary>
