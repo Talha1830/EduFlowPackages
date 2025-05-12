@@ -28,4 +28,4 @@ jobs:
         run: dotnet pack ./EduFlow.Shared/EduFlow.Shared.csproj --configuration Release --no-restore --output ./output /p:PackageVersion=1.0.${{ github.run_number }}
       
       - name: Publish NuGet package
-        run: dotnet nuget push ./output/EduFlow.Shared.1.0.${{ github.run_number }}.nupkg --source "https://nuget.pkg.github.com/Talha1830/index.json" --api-key "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"
+        run: dotnet nuget push ./output/EduFlow.Shared.1.0.${{ github.run_number }}.nupkg --source "https://nuget.pkg.github.com/Talha1830/index.json" --api-key ${{ secrets.package_secret }}
