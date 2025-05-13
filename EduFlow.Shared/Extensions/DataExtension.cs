@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EduFlow.Shared.Extensions
@@ -209,6 +211,30 @@ namespace EduFlow.Shared.Extensions
             return value.Substring(0, maxLength);
         }
 
+
+
+
+        public static bool IsValidEmail(this string email)
+        {
+            Regex _emailRegex = new Regex(
+            @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return !string.IsNullOrWhiteSpace(email) && _emailRegex.IsMatch(email);
+        }
+        public static string? NormalizeEmail(this string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            try
+            {
+                return new MailAddress(email).Address;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
     }
     //public class Example
