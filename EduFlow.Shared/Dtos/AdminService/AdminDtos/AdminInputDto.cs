@@ -11,7 +11,7 @@ namespace EduFlow.Shared.Dtos.AdminService.AdminDtos
 
         public string? Password { get; set; }
         public string? MobileNumber { get; set; }
-        public IFormFile? ProfileImageFile { get; set; }
+        public string? ProfileImageBase64 { get; set; }
         public string? ImageName { get; set; }
     }
 }
